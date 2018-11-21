@@ -60,7 +60,7 @@ Because TestSpec uses a custom formatter, you should have an `.rspec` file with 
 --format RSpec::TestSpec::Formatter
 ```
 
-You can use RSpec constructs within Specify constructs although there are some things to be aware of. Here is an example:
+You can use RSpec constructs within TestSpec constructs although there are some things to be aware of. Here is an example:
 
 ```ruby
 Feature 'Bank Accounts' do
@@ -68,7 +68,7 @@ Feature 'Bank Accounts' do
   subject { Account.new(valid_account_number) }
 
   Scenario 'starting a new account' do
-    Test 'will have a starting balance of 0' do
+    test 'will have a starting balance of 0' do
       expect(subject.balance).to eq(0)
     end
 
@@ -79,7 +79,7 @@ Feature 'Bank Accounts' do
 end
 ```
 
-You can see that within the Feature construct I have let and subject elements. Within the Scenario you can see I use a Specify method (Test) and an RSpec method (it).
+You can see that within the Feature construct I have let and subject elements. Within the Scenario you can see I use a TestSpec method (Test) and an RSpec method (it).
 
 ## Documentation
 
@@ -182,6 +182,56 @@ end
 You can also see here that multiple **Scenario** blocks can be included within a Feature or Ability.
 
 This should give a rough idea of how TestSpec provides an internal DSL.
+
+## Design Rationale
+
+TestSpec is a micro-framework.
+
+A micro-framework provides a focused solution, which means it does one thing and one thing only, instead of trying to solve each and every problem. While doing that one thing it does well, the micro-framework should do it while being expressive and concise. Further, it should be able to serve as one component of your own custom modularized framework, allowing you to compose solutions.
+
+### Frameworks are Effective and Efficient
+
+I believe that test solution frameworks require effective functionality, an efficient user experience, and demonstrable business impact. This all has to be delivered, deployed, and supported quickly and cost-effectively. You want the equivalent of a lower total cost of ownership and a faster time-to-market for whatever you produce (such as test artifacts).
+
+### Frameworks are Comfortable
+
+Like a programming language, a framework needs to be something you're comfortable with -- something that reflects your personal style and mode of working. That's what TestSpec is for me.
+
+TestSpec allows me to continue working with a Gherkin-like structure but putting my test specs closer to the code. Just as in RSpec, everything is in one place: the Ruby file. The benefit here is that you don't have to change the text in two places -- feature files and step definition files -- every time you change something. Further, there are no more matchers to sync up with natural language. TestSpec uses plain Ruby helper methods coupled with various patterns.
+
+### Frameworks Provide
+
+A framework provides a few key aspects.
+
+A place for everything: Structure and convention drive a good framework. Everything should have a proper place within the system; this eliminates guesswork and increases productivity.
+
+A culture and aesthetic to help inform programming decisions: Rather than seeing the structure imposed by a framework as constraining, see it as liberating. A good framework encodes its opinions, gently guiding you. Often, difficult decisions are made for you by virtue of convention. The culture of the framework helps you make fewer menial decisions and helps you focus on what matters most.
+
+### Frameworks Have Qualities
+
+I believe a test framework with good qualities will ...
+
+* Encode opinions.
+* Have an elegant, concise syntax.
+* Have powerful metaprogramming features.
+* Be well suited as a host language for creating DSLs.
+* Allow for an open ecosystem.
+
+### TestSpec (Conceptually) Compared
+
+Even though their domains are different, consider TestSpec in light of Rails. Rails is more than a programming framework for creating web applications. It's also a framework for thinking about web applications.
+
+Rails ships not as a blank slate equally tolerant of every kind of expression. On the contrary, Rails trades that flexibility for the convenience of "what most people need most of the time to do most things."
+
+You could argue that Rails is a designer straightjacket. Yet this straightjacket sets you free from focusing on the things that just don't matter and focuses your attention on the stuff that does. To be able to accept that trade, you need to understand not just how to do something in Rails, but also why it's done like that. Only by understanding the why will you be able to consistently work with the framework instead of against it.
+
+It doesn't mean that you'll always have to agree with a certain choice, but you will need to agree to the overachieving principle of conventions. You have to learn to relax and let go of your attachment to personal idiosyncrasies when the productivity rewards are right.
+
+So it is with TestSpec.
+
+A framework goal is to solve 80% of the problems that occur in your testing domain, assuming that the remaining 20% are problems that are unique to the application's domain. This implies that 80% of the code in an application is infrastructure. So here instead of focusing on the details of knitting an application together, you get to focus on the 20% that really matters.
+
+The framework lets you start right away by encompassing a set of intelligent decisions about how your logic should work and alleviating the amount of low-level decision making you need to do up front. As a result, you can focus on the problems you're trying to solve and get the job done more quickly.
 
 ## Development
 
