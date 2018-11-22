@@ -28,4 +28,7 @@ Feature "top-level feature block" do
 
   tests "step block (tests)" do
   end
+
+  facts "fact block (tests)" do
+  end
 end

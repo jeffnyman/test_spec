@@ -183,6 +183,121 @@ You can also see here that multiple **Scenario** blocks can be included within a
 
 This should give a rough idea of how TestSpec provides an internal DSL.
 
+### TestSpec API
+
+The [unit tests](https://github.com/jeffnyman/test_spec/tree/master/spec) will give you some idea of how TestSpec works.
+
+To use TestSpec as an RSpec overlay, you have **descriptive containers** with the following keywords:
+
+* Feature, Ability, Story, Component, Workflow
+
+These are defined in the [spec.rb](https://github.com/jeffnyman/test_spec/blob/master/lib/test_spec/spec.rb) file.
+
+You have **example group sequences** with the following keywords:
+
+* Scenario, Condition, Behavior
+* Step, Test, Rule, Fact
+* steps, tests, rules, facts
+
+These are defined in the [test_spec.rb](https://github.com/jeffnyman/test_spec/blob/master/lib/test_spec.rb) file.
+
+You have **example steps** with the following keywords:
+
+* (Gherkin steps) Given, When, Then, And, But
+* (RSpec steps) it, specify, example
+* (Specify steps) step, test, rule, fact
+
+These are defined in the [example_group.rb](https://github.com/jeffnyman/test_spec/blob/master/lib/test_spec/rspec/example_group.rb) file.
+
+The API is basically this: **Containers contain example groups that contain example steps.** Everything must essentially be nested in that order. This allows you to follow just about every xSpec or xBehave pattern out there.
+
+Some representative examples:
+
+```ruby
+Feature 'some feature description' do
+  Scenario 'some test condition' do
+    Given 'some context' do
+    end
+
+    When 'some action' do
+    end
+
+    Then 'some observable' do
+    end
+  end
+end
+```
+
+```ruby
+Workflow 'some workflow description' do
+  Behavior 'some behavior description' do
+    example 'some test condition' do
+    end
+
+    example 'some other test condition' do
+    end
+  end
+end
+```
+
+```ruby
+Component 'some component name' do
+  rules 'some high-level rules condition' do
+    rule 'some specific rule test condition' do
+    end
+
+    rule 'some other specific rule test condition' do
+    end
+  end
+end
+```
+
+A few notes on this.
+
+Example group sequences and example steps cannot be top level. Only descriptive containers can be the top level artifact in a test spec. Also, example steps cannot be directly under descriptive containers. For example, you can't do this:
+
+```ruby
+Ability 'ability keyword' do
+  When 'when keyword' do
+  end
+end
+```
+
+Here the `When` (an example step) is under a descriptive container (`Ability`). But it needs to be within an example group (such as `Scenario`).
+
+It's also worth noting that descriptive containers cannot be used inside example groups. For example, you can't do this:
+
+```ruby
+Ability 'ability keyword' do
+  Scenario 'scenario keyword' do
+    Story 'story keyword' do
+    end
+  end
+end
+```
+
+Here the `Story` (a descriptive container) is used under a example group (`Scenario`). Descriptive containers, however, are top-level constructs. They provide a grouping method for one or more example groups.
+
+You can nest descriptive containers if you feel that provides better understanding of your test spec. For example:
+
+```ruby
+Feature 'feature keyword' do
+  Workflow 'workflow keyword' do
+    Component 'component #1' do
+      Scenario 'scenario' do
+      end
+    end
+
+    Component 'component #2' do
+      Scenario 'scenario' do
+      end
+    end
+  end
+end
+```
+
+Here notice that the containers `Feature`, `Workflow` and `Component` are used together to indicate a relationship about what is being tested. Each of the innermost containers then has some example groups (`Scenario` in this case) which can contain specific tests.
+
 ## Design Rationale
 
 TestSpec is a micro-framework.
