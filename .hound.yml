@@ -67,3 +67,12 @@ Metrics/ParameterLists:
 # Remove execute permissions check.
 Lint/ScriptPermission:
   Enabled: false
+
+# Allow methods with has_ for predicates.
+Naming/PredicateName:
+  NameWhitelist:
+    - has_failed_screenshot?
+    - has_exception?
+    - has_screenshots?
+    - has_screenrecord?
+    - has_spec?

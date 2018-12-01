@@ -30,6 +30,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "pry"
 
+  spec.add_runtime_dependency "rouge"
+  spec.add_runtime_dependency "rspec-core"
+  spec.add_runtime_dependency "activesupport"
+
   spec.post_install_message = %{
 (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::)
   TestSpec #{TestSpec::VERSION} has been installed.

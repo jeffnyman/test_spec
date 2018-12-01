@@ -11,6 +11,9 @@
 /spec/coverage/
 /tmp/
 
+# Generated Reports
+reports/
+
 # Rspec Failure Tracking
 
 .rspec_status
