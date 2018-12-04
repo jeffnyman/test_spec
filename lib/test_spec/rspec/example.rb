@@ -21,6 +21,7 @@ class Example
     @file_path = @metadata[:file_path]
     @exception = Problem.new(example, @file_path)
     @failed_screenshot = @metadata[:failed_screenshot]
+    @comment = @metadata[:comment]
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -30,8 +31,16 @@ class Example
     title_arr.join(' → ')
   end
 
+  def comment
+    ERB::Util.html_escape(@comment)
+  end
+
   def has_spec?
     !@spec.nil?
+  end
+
+  def has_comment?
+    !@comment.nil?
   end
 
   def has_screenrecord?

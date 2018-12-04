@@ -76,3 +76,4 @@ Naming/PredicateName:
     - has_screenshots?
     - has_screenrecord?
     - has_spec?
+    - has_comment?
